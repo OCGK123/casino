@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>행운의 카지노</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 로딩 화면 -->
+        <div id="loading-screen">
+            <div class="loading-content">
+                <h1>행운의 카지노</h1>
+                <div class="loading-spinner">🎲</div>
+                <p>로딩 중...</p>
+            </div>
+        </div>
+
+        <!-- 시작 화면 -->
+        <div id="start-screen" class="hidden">
+            <div class="start-content">
+                <h1>행운의 카지노</h1>
+                <div class="casino-logo">🎰</div>
+                <button id="new-game-btn" class="primary-btn">새 게임</button>
+                <button id="load-game-btn" class="secondary-btn">이어하기</button>
+            </div>
+        </div>
+
+        <!-- 메인 게임 UI -->
+        <div id="game-container" class="hidden">
+            <!-- 상단 상태바 -->
+            <div id="status-bar">
+                <div class="status-item">
+                    <span class="status-icon">💰</span>
+                    <span id="money-display">100,000원</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-icon">📅</span>
+                    <span id="date-display">1일차</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-icon">⏰</span>
+                    <span id="time-display">12:00</span>
+                </div>
+                <div class="status-item">
+                    <button id="phone-btn" class="icon-btn">📱</button>
+                </div>
+                <div class="status-item">
+                    <button id="menu-btn" class="icon-btn">☰</button>
+                </div>
+            </div>
+
+            <!-- 메인 콘텐츠 영역 -->
+            <div id="main-content">
+                <!-- 카지노 로비 -->
+                <div id="casino-lobby" class="game-section">
+                    <h2>카지노 게임</h2>
+                    <div class="game-grid">
+                        <div class="game-item" data-game="blackjack">
+                            <div class="game-icon">🃏</div>
+                            <div class="game-name">블랙잭</div>
+                        </div>
+                        <div class="game-item" data-game="slot">
+                            <div class="game-icon">🎰</div>
+                            <div class="game-name">슬롯머신</div>
+                        </div>
+                        <div class="game-item" data-game="roulette">
+                            <div class="game-icon">🎯</div>
+                            <div class="game-name">룰렛</div>
+                        </div>
+                        <div class="game-item" data-game="poker">
+                            <div class="game-icon">♠️</div>
+                            <div class="game-name">포커</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 게임 화면들 (처음에는 숨겨져 있음) -->
+                <div id="blackjack-game" class="game-section hidden"></div>
+                <div id="slot-game" class="game-section hidden"></div>
+                <div id="roulette-game" class="game-section hidden"></div>
+                <div id="poker-game" class="game-section hidden"></div>
+            </div>
+
+            <!-- 휴대폰 인터페이스 -->
+            <div id="phone-interface" class="hidden">
+                <div class="phone-header">
+                    <span id="phone-time">12:00</span>
+                    <span class="phone-icons">📶 🔋</span>
+                    <button id="close-phone-btn">✖</button>
+                </div>
+                <div class="phone-content">
+                    <div class="phone-apps">
+                        <div class="phone-app" data-app="bank">
+                            <div class="app-icon">🏦</div>
+                            <div class="app-name">은행</div>
+                        </div>
+                        <div class="phone-app" data-app="loans">
+                            <div class="app-icon">💸</div>
+                            <div class="app-name">대출</div>
+                        </div>
+                        <div class="phone-app" data-app="shop">
+                            <div class="app-icon">🛒</div>
+                            <div class="app-name">상점</div>
+                        </div>
+                        <div class="phone-app" data-app="assets">
+                            <div class="app-icon">📊</div>
+                            <div class="app-name">자산</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 앱 화면들 (처음에는 숨겨져 있음) -->
+            <div id="bank-app" class="phone-app-screen hidden">
+                <div class="app-header">
+                    <button class="back-btn">←</button>
+                    <h3>은행</h3>
+                </div>
+                <div class="app-content">
+                    <div class="account-info">
+                        <h4>계좌 잔액</h4>
+                        <div id="bank-balance" class="balance">100,000원</div>
+                    </div>
+                    <div class="bank-actions">
+                        <button id="deposit-btn" class="bank-btn">입금</button>
+                        <button id="withdraw-btn" class="bank-btn">출금</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="loans-app" class="phone-app-screen hidden">
+                <div class="app-header">
+                    <button class="back-btn">←</button>
+                    <h3>대출</h3>
+                </div>
+                <div class="app-content">
+                    <div class="loan-info">
+                        <h4>현재 대출</h4>
+                        <div id="loan-amount" class="balance">0원</div>
+                        <div class="interest-rate">이자율: <span id="interest-rate">10%</span></div>
+                    </div>
+                    <div class="loan-actions">
+                        <button id="get-loan-btn" class="bank-btn">대출받기</button>
+                        <button id="repay-loan-btn" class="bank-btn">상환하기</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="shop-app" class="phone-app-screen hidden">
+                <div class="app-header">
+                    <button class="back-btn">←</button>
+                    <h3>상점</h3>
+                </div>
+                <div class="app-content">
+                    <div class="shop-categories">
+                        <button class="shop-category-btn" data-category="cars">🚗 자동차</button>
+                        <button class="shop-category-btn" data-category="houses">🏠 부동산</button>
+                        <button class="shop-category-btn" data-category="luxury">⌚ 명품</button>
+                        <button class="shop-category-btn" data-category="gold">🪙 금</button>
+                    </div>
+                    <div class="shop-items" id="shop-items-container">
+                        <!-- 상점 아이템들이 여기에 동적으로 추가됨 -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="assets-app" class="phone-app-screen hidden">
+                <div class="app-header">
+                    <button class="back-btn">←</button>
+                    <h3>자산</h3>
+                </div>
+                <div class="app-content">
+                    <div id="asset-summary" class="asset-summary">
+                        <h4>총 자산 가치</h4>
+                        <div id="total-assets-value" class="balance">0원</div>
+                    </div>
+                    <div id="asset-list" class="asset-list">
+                        <!-- 보유 자산 목록이 여기에 동적으로 추가됨 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 메뉴 -->
+            <div id="menu-overlay" class="hidden">
+                <div class="menu-content">
+                    <button id="close-menu-btn" class="close-btn">✖</button>
+                    <h3>메뉴</h3>
+                    <button id="save-game-btn" class="menu-btn">게임 저장</button>
+                    <button id="settings-btn" class="menu-btn">설정</button>
+                    <button id="help-btn" class="menu-btn">도움말</button>
+                    <button id="exit-game-btn" class="menu-btn danger">게임 종료</button>
+                </div>
+            </div>
+
+            <!-- 모달 창 -->
+            <div id="modal-overlay" class="hidden">
+                <div id="modal-content">
+                    <button id="close-modal-btn" class="close-btn">✖</button>
+                    <h3 id="modal-title">제목</h3>
+                    <div id="modal-body">내용</div>
+                    <div id="modal-buttons">
+                        <button id="modal-cancel-btn" class="secondary-btn">취소</button>
+                        <button id="modal-confirm-btn" class="primary-btn">확인</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 알림 메시지 -->
+            <div id="notification" class="hidden">
+                <span id="notification-message"></span>
+            </div>
+            
+            <!-- 파산 화면 -->
+            <div id="bankruptcy-screen" class="hidden">
+                <div class="bankruptcy-content">
+                    <h2>파산!</h2>
+                    <p>당신은 모든 재산을 잃고 빚을 갚을 수 없게 되었습니다.</p>
+                    <div class="bankruptcy-icon">💸</div>
+                    <button id="restart-after-bankruptcy-btn" class="primary-btn">새 게임 시작</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
